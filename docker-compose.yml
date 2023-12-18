@@ -1,0 +1,16 @@
+version: '3'
+services:
+  server:
+    build:
+      context: ./server
+    ports:
+      - '4321:4321'
+  client:
+    build:
+      context: ./client
+    ports:
+      - '82:82'
+  mongo:
+    image: mongo:latest
+    ports:
+      - '27018:27017'
