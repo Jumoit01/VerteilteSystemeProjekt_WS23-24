@@ -1,17 +1,14 @@
-const express = require('express');
-const mongoose = require('mongoose');
+const app = require('./app')
+const mongoose = require('mongoose')
 
-const app = express();
-const PORT = process.env.PORT || 4321;
+// MongoDB local connection
+try {
+    mongoose.connect("mongodb://localhost:27018/footballBase");
+} catch(error) {
+    console.log(error.message)
+}
 
-// Middleware for parsing JSON
-app.use(express.json());
-
-// Routes
-app.get('/', (req, res) => res.send('Hello MERN App!'));
-
-// Connect to MongoDB (you need to have MongoDB installed)
-mongoose.connect('mongodb://mongo:27018/', { useNewUrlParser: true, useUnifiedTopology: true });
-
-// Start server
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+app.listen(8080, () => {
+    console.log('Server started in port', 8080);
+    mongoose.connection.once('open', () => console.log('Connected to Database'))
+})
