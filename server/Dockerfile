@@ -13,7 +13,7 @@ RUN npm install
 # Copy the current directory contents into the container at /usr/src/app
 COPY .. .
 
-# Expose port 5000 from the container
+# Expose port 4321 from the container
 EXPOSE 4321
 
 # Run app when the container launches
