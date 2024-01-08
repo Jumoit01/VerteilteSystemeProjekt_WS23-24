@@ -9,7 +9,7 @@ services:
     build:
       context: ./client
     ports:
-      - '82:82'
+      - '3000:3000'
   mongo:
     image: mongo:latest
     ports:

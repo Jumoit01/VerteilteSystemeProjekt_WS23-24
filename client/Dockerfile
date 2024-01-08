@@ -1,29 +1,19 @@
-# Use an official Node.js runtime as a parent image
-FROM node:14 as build
+# pull official base image
+FROM node:14
 
-# Set the working directory for the client
-WORKDIR /usr/src/app/client
+# set working directory
+WORKDIR /app
 
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
 
-# Install client dependencies
+# install app dependencies
+COPY package.json ./
+COPY package-lock.json ./
 RUN npm install
 
-# Copy the client code
-COPY . .
+# add app
+COPY . ./
 
-# Build the React app
-RUN npm run build
-
-# Use a lightweight Nginx image to serve the static files
-FROM nginx:alpine
-
-# Copy the built static files from the previous stage
-COPY --from=build /usr/src/app/client/build /usr/share/nginx/html
-
-# Expose port 80 for the Nginx server
-EXPOSE 82
-
-# The default command is to start Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# start app
+CMD ["npm", "start"]
