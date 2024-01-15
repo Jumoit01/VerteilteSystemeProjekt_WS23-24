@@ -5,16 +5,8 @@ import AddPlayer from "../components/buttons/AddPlayer";
 import PlayerList from "../components/player_list/PlayerList";
 
 
-const Home = () => {
+const TeamView = () => {
     const [players, setPlayers] = useState([]);
-    const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
-        position: '',
-        marketvalue: '',
-        team: '',
-        leagueTeam: ''
-    });
 
     // Fetch all players when the component mounts
     useEffect(() => {
@@ -44,7 +36,7 @@ const Home = () => {
 
     return (
         <div>
-            <h1>Football Base</h1>
+            <h3>Spielerliste</h3>
 
             <AddPlayer onSave={handleSavePlayer}/>
             <PlayerList players={players} handleDelete={handleDelete} setPlayers={setPlayers}/>
@@ -52,4 +44,4 @@ const Home = () => {
     );
 }
 
-export default Home;
+export default TeamView;
