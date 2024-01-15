@@ -1,14 +1,39 @@
 import './App.css';
-import React from "react"
-import { Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
+import React, {useState} from "react"
+import PlayersView from "./pages/PlayersView";
+import TeamView from "./pages/TeamView";
 
-const App = () => {
-  return (
-      <div className="App">
-        <Home/>
-      </div>
-  );
+function App (){
+    const [view, setView] = useState("players");
+    const handleTabChange = (tab) => {
+        setView(tab);
+    };
+    return (
+        <div className="App">
+            <div className="tab-bar">
+                <button
+                    className={view === 'players' ? 'active' : ''}
+                    onClick={() => handleTabChange('players')}
+                >
+                    Spielerliste
+                </button>
+                <button
+                    className={view === 'teams' ? 'active' : ''}
+                    onClick={() => handleTabChange('teams')}
+                >
+                    Teams
+                </button>
+            </div>
+
+            <h1>Football Base</h1>
+            {
+                view === "players" ?
+                    <PlayersView/>
+                    :
+                    <TeamView/>
+            }
+        </div>
+    );
 }
 
 export default App;
