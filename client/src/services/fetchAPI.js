@@ -9,25 +9,49 @@ export async function fetchPlayers(setPlayers) {
     }
 }
 
-export function savePlayer(student, setStudents) {
+export function savePlayer(player, setPlayers) {
     const fetchOptions = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(student),
+        body: JSON.stringify(player),
     };
     fetch("http://localhost:4321/players/", fetchOptions)
         .then(response => {
             if (!response.ok)
                 throw new Error(`HTTP error! Status: ${response.status}`);
-            console.log('Student added successfully');
+            console.log('Player added successfully');
             return response.json();
         })
         .then(json => {
-            setStudents(json.data)
+            setPlayers(json.data)
         })
         .catch(error => {
-            console.error('Error adding student:', error.message);
+            console.error('Error adding player:', error.message);
+        });
+}
+
+export function patchPlayer(player, setPlayers) {
+    console.log(player)
+    const fetchOptions = {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(player),
+    };
+    fetch(`http://localhost:4321/players/id/${player._id}`, fetchOptions)
+        .then(response => {
+            if (!response.ok)
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            console.log('Player updated successfully');
+            return response.json();
+        })
+        .then(json => {
+            setPlayers(json.data)
+        })
+        .catch(error => {
+            console.error('Error adding player:', error.message);
         });
 }
