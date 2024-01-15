@@ -1,15 +1,21 @@
-import React, {useState} from "react";
-import {keyboard} from "@testing-library/user-event/dist/keyboard";
+import React, {useEffect, useState} from "react";
+import teamlistJSON from "../json/teamlist.json"
 
-const PlayerList = ({players, handleDelete, setPlayers}) => {
+const PlayerList = ({players, handleDelete, handlePatch}) => {
+    const teamList = teamlistJSON.team
     const [editable, setEditable] = useState(null)
+    const [editPlayer, setEditPlayer] = useState(null)
+    useEffect(() => {
+        setEditPlayer(players[editable])
+    }, [editable])
     const handleInputChange = (e) => {
         const {name, value} = e.target
-        setPlayers((prevStudent) => ({
+        setEditPlayer((prevStudent) => ({
             ...prevStudent,
             [name]: value,
         }))
     }
+    console.log(editPlayer)
     return (
         <>
             <table>
@@ -27,53 +33,60 @@ const PlayerList = ({players, handleDelete, setPlayers}) => {
                         return (
                             <tr>
                                 {
-                                    editable === key ?
+                                    editable === key && editPlayer ?
                                         <>
                                             <td>
                                                 <input
                                                     type="text"
+                                                    name="firstName"
                                                     placeholder="Enter new first name"
-                                                    value={player.firstName}
+                                                    value={editPlayer.firstName}
                                                     onChange={handleInputChange}
                                                 />
                                                 <input
                                                     type="text"
+                                                    name="lastName"
                                                     placeholder="Enter new last name"
-                                                    value={player.lastName}
+                                                    value={editPlayer.lastName}
                                                     onChange={handleInputChange}
                                                 />
                                             </td>
                                             <td>
-                                                <input
-                                                    type="text"
-                                                    placeholder="Enter new position"
-                                                    value={player.position}
-                                                    onChange={handleInputChange}
-                                                />
+                                                <select name="position" value={editPlayer.position} onChange={handleInputChange} required>
+                                                    <option value="goalkeeper">Goalkeeper</option>
+                                                    <option value="defense">Defense</option>
+                                                    <option value="midfield">Midfield</option>
+                                                    <option value="attack">Attack</option>
+                                                </select>
                                             </td>
                                             <td>
                                                 <input
                                                     type="text"
                                                     placeholder="Enter new marketvalue"
-                                                    value={player.marketvalue}
+                                                    value={editPlayer.marketvalue}
                                                     onChange={handleInputChange}
                                                 />
                                             </td>
                                             <td>
-                                                <input
-                                                    type="text"
-                                                    placeholder="Enter new team"
-                                                    value={player.team}
-                                                    onChange={handleInputChange}
-                                                />
+                                                <select name="team" value={editPlayer.team} onChange={handleInputChange} >
+                                                    <option value="" >Wähle ein Team</option>
+                                                    {
+                                                        teamList.map((name) => {
+                                                            return <option value={name}>{name}</option>
+                                                        })
+                                                    }
+                                                </select>
                                             </td>
                                             <input
                                                 type="text"
                                                 placeholder="Enter new first league team"
-                                                value={player.leagueTeam}
+                                                value={editPlayer.leagueTeam}
                                                 onChange={handleInputChange}
                                             />
-                                            <td><button onClick={() => setEditable(null)}>Sichern</button></td>
+                                            <td><button onClick={() => {
+                                                setEditable(null)
+                                                handlePatch(editPlayer)
+                                            }}>Sichern</button></td>
                                         </>
                                         :
                                         <>
