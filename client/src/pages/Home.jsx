@@ -22,23 +22,6 @@ const Home = () => {
     }, []);
 
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            await axios.patch('http://localhost:4321/', formData);
-            setFormData({
-                firstName: '',
-                lastName: '',
-                position: '',
-                marketvalue: '',
-                team: '',
-                leagueTeam: ''
-            });
-        } catch (error) {
-            console.error('Error creating player:', error);
-        }
-    };
-
     const handleSavePlayer = (newStudent) => {
         savePlayer(newStudent, setPlayers)
     }
@@ -48,17 +31,16 @@ const Home = () => {
             return
         }
         try {
-            let players = await axios.delete(`http://localhost:4321/players/id/${id}`);
-            console.log(players)
+            let playerData = await axios.delete(`http://localhost:4321/players/id/${id}`);
+            console.log(playerData.data.data)
+            let players = playerData.data.data
 
-            const updatedPlayers = players.filter(player => player._id !== id);
-            setPlayers(updatedPlayers);
+            setPlayers(players);
         } catch (error) {
             console.error('Error deleting player:', error);
         }
     };
 
-    console.log(players)
 
     return (
         <div>
