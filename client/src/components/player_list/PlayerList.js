@@ -3,7 +3,6 @@ import {keyboard} from "@testing-library/user-event/dist/keyboard";
 
 const PlayerList = ({players, handleDelete, setPlayers}) => {
     const [editable, setEditable] = useState(null)
-    console.log(editable)
     const handleInputChange = (e) => {
         const {name, value} = e.target
         setPlayers((prevStudent) => ({
