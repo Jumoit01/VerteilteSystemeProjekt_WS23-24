@@ -79,6 +79,7 @@ const PlayerList = ({players, handleDelete, handlePatch}) => {
                                             </td>
                                             <input
                                                 type="text"
+                                                name="leagueTeam"
                                                 placeholder="Enter new first league team"
                                                 value={editPlayer.leagueTeam}
                                                 onChange={handleInputChange}

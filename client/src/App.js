@@ -27,10 +27,14 @@ function App (){
 
             <h1>Football Base</h1>
             {
-                view === "players" ?
+                view === "players" &&
                     <PlayersView/>
-                    :
+
+            }
+            {
+                view === "teams" &&
                     <TeamView/>
+
             }
         </div>
     );
